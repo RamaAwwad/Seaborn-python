@@ -1,0 +1,101 @@
+import pandas as pd
+import io
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+#Read the csv file
+from google.colab import files
+uploaded= files.upload()
+
+df= pd.read_csv(io.BytesIO(uploaded['covid_india.csv']))
+print (df)
+df.info()
+
+#DistributionPlot
+plt.style.use("seaborn-paper")
+#Distribution plot for the patients who cured
+sns.distplot(df.Cured, bins=20, color="g")
+plt.show()
+#Distribution plot for the patients who deaths
+sns.distplot(df.Deaths, bins=20, color="g")
+plt.show()
+#Distribution plot for the patients who confirmed
+sns.distplot(df.Confirmed, bins=20, color="g")
+plt.show()
+#Pie Chart & Bar Chart
+#pie chart for cured patients
+plt.figure(figsize=[9,7])
+df['Cured'].head(1000).value_counts().plot.pie()
+plt.show()
+#bar chart for cured patients
+plt.figure(figsize=[9,7])
+df['Cured'].head(500).value_counts().plot.barh()
+plt.show()
+
+#pie chart for confirmed patients
+plt.figure(figsize=[9,7])
+df['Confirmed'].head(1000).value_counts().plot.pie()
+plt.show()
+#bar chart for Confirmed patients
+plt.figure(figsize=[9,7])
+df['Confirmed'].head(500).value_counts().plot.bar()
+plt.show()
+
+#pie chart for Deaths  patients
+plt.figure(figsize=[9,7])
+df['Deaths'].head(1000).value_counts().plot.pie()
+plt.show()
+#bar chart for Deaths  patients
+plt.figure(figsize=[9,7])
+df['Deaths'].head(500).value_counts().plot.barh()
+plt.show()
+plt.figure(figsize=[9,7])
+df['Deaths'].head(500).value_counts().plot.bar()
+plt.show()
+
+#Scatter Plots
+#scatter plots for cured and confirmed patients
+sns.jointplot(df.Cured, df.Confirmed)
+plt.show()
+
+
+#scatter plots for cured and deaths patients
+sns.jointplot(df.Cured, df.Deaths)
+plt.show()
+
+#scatter plots for confirmed and deaths patients
+sns.jointplot(df.Deaths, df.Confirmed)
+plt.show()
+
+#Scatter Plot using Regression Plot
+#Scatter Plot using Regression Plot "reg" for cured and confirmed patients
+sns.jointplot(df.Cured, df.Confirmed, kind = "reg")
+plt.show()
+
+#Scatter Plot using Regression Plot "reg" for cured and deaths patients
+sns.jointplot(df.Cured, df.Deaths, kind = "reg")
+plt.show()
+
+#Scatter Plot using Regression Plot "reg" for confirmed and deaths patients
+sns.jointplot(df.Confirmed.head(1000), df.Deaths.head(1000), kind = "reg")
+plt.show()
+
+#scatter plots for date and confirmed patients
+sns.jointplot(df.Date.tail(100), df.Confirmed.tail(100))
+plt.show()
+#Pair Plots
+#pair plots for cured,deaths, and confirmed patients
+sns.pairplot(df[['Cured', 'Deaths', 'Confirmed']].head(500))
+plt.show()
+
+#pair plots for cured and confirmed patients
+sns.pairplot(df[['Cured', 'Confirmed']].head(500))
+plt.show()
+
+#pair plots for cured and deaths patients
+sns.pairplot(df[['Cured', 'Deaths']].head(500))
+plt.show()
+
+#pair plots for deaths and confirmed patients
+sns.pairplot(df[['Deaths', 'Confirmed']].head(500))
+plt.show()
